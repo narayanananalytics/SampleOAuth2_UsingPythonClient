@@ -44,6 +44,6 @@ def qbo_journal_entries(access_token, realm_id):
 
 
 def qbo_profit_and_loss(access_token, realm_id):
-    route = '/v3/company/{0}/reports/ProfitAndLoss?minorversion=69&columns=account_num'.format(realm_id)
+    route = '/v3/company/{0}/reports/ProfitAndLoss?minorversion=69'.format(realm_id)
     return _qbo_get(access_token, realm_id, route)
     
