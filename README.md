@@ -16,22 +16,25 @@ Therefore there are certain instances where we might forgo a more complicated im
     
     git clone https://github.com/IntuitDeveloper/SampleOAuth2_UsingPythonClient.git
 
-Note: This sample has been developed with Python 3.6
+Note: This sample requires Python 3.12+ and [uv](https://docs.astral.sh/uv/).
 
 #### Install dependencies:
 
     cd SampleOAuth2_UsingPythonClient/
-    pip install -r requirements.txt 
+    uv sync
 
 #### Configure app
 
-1. Enter your app's `Client ID`, `Client Secret`, `Redirect URL` and app `environment` (`production` or `sandbox`) in [settings.py](SampleOAuth2_UsingPythonClient/settings.py).
-2. Make sure the same `Redirect URL` is entered in your Intuit developer app `Keys` tab under the right environment.
-3. To test Migration API, also enter `OAuth1 credentials` in the same file.
+1. Copy the sample environment file and fill in your credentials:
+
+        cp .env.sample .env
+
+2. Enter your app's `Client ID`, `Client Secret`, `Redirect URL` and app `environment` (`production` or `sandbox`) in `.env`.
+3. Make sure the same `Redirect URL` is entered in your Intuit developer app `Keys` tab under the right environment.
 
 #### Launch your app:
 
-    python manage.py runserver
+    uv run python manage.py runserver
 
 Launch URL `http://localhost:8000/app`
 
