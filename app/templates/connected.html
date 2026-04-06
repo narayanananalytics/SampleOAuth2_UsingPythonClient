@@ -18,6 +18,27 @@
                 })
             }
 
+            function chartOfAccountsCall() {
+                $("#result").html('Loading...')
+                $.get("/app/chart_of_accounts", function (data) {
+                    $("#result").html(data)
+                })
+            }
+
+            function journalEntriesCall() {
+                $("#result").html('Loading...')
+                $.get("/app/journal_entries", function (data) {
+                    $("#result").html(data)
+                })
+            }
+
+            function profitAndLossCall() {
+                $("#result").html('Loading...')
+                $.get("/app/profit_and_loss", function (data) {
+                    $("#result").html(data)
+                })
+            }
+
             function revokeCall() {
                 $("#result").html('Loading...')
                 $.get("/app/revoke", function (data) {
@@ -48,7 +69,10 @@
             {% if openid %}
                 <button onclick="userInfoCall()">UserInfo API Call</button>
             {% else %}
-                <button onclick="apiCall()">QuickBooks API Call</button>
+                <button onclick="apiCall()">Company Info</button>
+                <button onclick="chartOfAccountsCall()">Chart of Accounts</button>
+                <button onclick="journalEntriesCall()">Journal Entries</button>
+                <button onclick="profitAndLossCall()">Profit &amp; Loss</button>
             {% endif %}
             <button onclick="refreshCall()">Refresh Token Call</button>
             <button onclick="revokeCall()">Revoke Token Call</button>

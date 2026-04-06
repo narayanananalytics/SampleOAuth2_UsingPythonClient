@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -123,10 +126,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 
 # OAauth2 config here
-CLIENT_ID = '<EnterHere>'
-CLIENT_SECRET = '<EnterHere>'
-REDIRECT_URI = 'http://localhost:8000/app/callback'
-ENVIRONMENT = 'sandbox'
+CLIENT_ID = os.environ.get('CLIENT_ID')
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+REDIRECT_URI = os.environ.get('REDIRECT_URI', 'http://localhost:8000/app/callback')
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'sandbox')
 
 # QBO Base URLs
 QBO_BASE_SANDBOX = 'https://sandbox-quickbooks.api.intuit.com'

@@ -18,4 +18,32 @@ def qbo_api_call(access_token, realm_id):
         'Accept': 'application/json'
     }
     return requests.get('{0}{1}'.format(base_url, route), headers=headers)
+
+
+def _qbo_get(access_token, realm_id, route):
+    if settings.ENVIRONMENT == 'production':
+        base_url = settings.QBO_BASE_PROD
+    else:
+        base_url = settings.QBO_BASE_SANDBOX
+
+    headers = {
+        'Authorization': 'Bearer {0}'.format(access_token),
+        'Accept': 'application/json'
+    }
+    return requests.get('{0}{1}'.format(base_url, route), headers=headers)
+
+
+def qbo_chart_of_accounts(access_token, realm_id):
+    route = '/v3/company/{0}/query?query=SELECT * FROM Account'.format(realm_id)
+    return _qbo_get(access_token, realm_id, route)
+
+
+def qbo_journal_entries(access_token, realm_id):
+    route = '/v3/company/{0}/query?query=SELECT * FROM JournalEntry'.format(realm_id)
+    return _qbo_get(access_token, realm_id, route)
+
+
+def qbo_profit_and_loss(access_token, realm_id):
+    route = '/v3/company/{0}/reports/ProfitAndLoss?minorversion=69&columns=account_num'.format(realm_id)
+    return _qbo_get(access_token, realm_id, route)
     

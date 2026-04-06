@@ -13,7 +13,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServer
 from django.conf import settings
 from django.core import serializers
 
-from app.services import qbo_api_call
+from app.services import qbo_api_call, qbo_chart_of_accounts, qbo_journal_entries, qbo_profit_and_loss
 
 # Create your views here.
 def index(request):
@@ -122,6 +122,36 @@ def qbo_request(request):
         return HttpResponse(' '.join([response.content, str(response.status_code)]))
     else:
         return HttpResponse(response.content)
+
+def _make_qbo_call(request, api_func):
+    auth_client = AuthClient(
+        settings.CLIENT_ID,
+        settings.CLIENT_SECRET,
+        settings.REDIRECT_URI,
+        settings.ENVIRONMENT,
+        access_token=request.session.get('access_token', None),
+        refresh_token=request.session.get('refresh_token', None),
+        realm_id=request.session.get('realm_id', None),
+    )
+    if auth_client.realm_id is None:
+        raise ValueError('Realm id not specified.')
+    response = api_func(auth_client.access_token, auth_client.realm_id)
+    if not response.ok:
+        return HttpResponse(' '.join([response.content.decode(), str(response.status_code)]))
+    return HttpResponse(response.content)
+
+
+def chart_of_accounts(request):
+    return _make_qbo_call(request, qbo_chart_of_accounts)
+
+
+def journal_entries(request):
+    return _make_qbo_call(request, qbo_journal_entries)
+
+
+def profit_and_loss(request):
+    return _make_qbo_call(request, qbo_profit_and_loss)
+
 
 def user_info(request):
     auth_client = AuthClient(
